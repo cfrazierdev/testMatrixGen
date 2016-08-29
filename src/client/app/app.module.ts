@@ -12,6 +12,8 @@ import { routing } from './routes';
 
 import { ProductReleaseComponent } from './+product-release/index';
 import { RegressionTestComponent } from './+regression-test/index';
+import { BrowserComponent } from './+browser/index';
+import { UserTypeComponent } from './+user-type/index';
 import { GridComponent } from './shared/index';
 
 @NgModule({
@@ -19,6 +21,8 @@ import { GridComponent } from './shared/index';
     AppComponent,
     ProductReleaseComponent,
     RegressionTestComponent,
+    BrowserComponent,
+    UserTypeComponent,
     GridComponent
   ],
   imports: [

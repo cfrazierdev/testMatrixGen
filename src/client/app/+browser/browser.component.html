@@ -1,0 +1,14 @@
+<h4>Select browsers and percentage for each</h4>
+<div >
+  <table>
+    <tr *ngFor="let browser of sessionService.session.browsers">
+      <td>{{browser.BrowserName}}</td>
+      <td><input type="text" [(ngModel)]="browser.BrowserPercentageWeight" /></td>
+    </tr>
+  </table>
+</div>
+<div>
+  <button (click)="onBack()">Back</button>
+  <button (click)="onReset()">Reset</button>
+  <button (click)="onNext()">Next</button>
+</div>

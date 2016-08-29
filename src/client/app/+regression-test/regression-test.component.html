@@ -1,24 +1,12 @@
 <div>
-  <!--<table *ngIf="regressionTests">
-    <caption>Review Regression Test Suites</caption>
-    <tr>
-      <th>Regression Test Name</th>
-      <th>Risk Lvl</th>
-      <th>Core</th>
-      <th>DeviceBlind</th>
-      <th>UserTypeBlind</th>
-      <th>OmitFromMobile</th>
-    </tr>
-    <tr *ngFor="let test of regressionTests">
-      <td>{{test.RegressionTestSuiteName}}</td>
-      <td>{{test.RiskLevelId}}</td>
-      <td>{{test.IsCore}}</td>
-      <td>{{test.IsDeviceBlind}}</td>
-      <td>{{test.IsUserTypeBlind}}</td>
-      <td>{{test.OmitFromMobile}}</td>
-    </tr>
-  </table>-->
   <div style="position:relative;height:400px;">
     <gp-grid  [gridOptions]="gridOptions"></gp-grid>
+  </div>
+  <div>
+    <button (click)="onBack()">Back</button>
+    <button>Add</button>
+    <button>Save</button>
+    <button (click)="onResetToDefault()">Reset to Default</button>
+    <button (click)="onNext()">Next</button>
   </div>
 </div>

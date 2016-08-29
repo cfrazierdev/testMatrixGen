@@ -1,0 +1,15 @@
+<h4>Assign multiplier values for each User Type</h4>
+<h6>(Values to be increments of 1)</h6>
+<div >
+  <table>
+    <tr *ngFor="let userType of sessionService.session.userTypes">
+      <td>{{userType.UserTypeDescription}}</td>
+      <td><input type="text" [(ngModel)]="userType.UserTypeMultiplier" /></td>
+    </tr>
+  </table>
+</div>
+<div>
+  <button (click)="onBack()">Back</button>
+  <button (click)="onReset()">Reset</button>
+  <button (click)="onGenerate()">Generate Matrix</button>
+</div>
