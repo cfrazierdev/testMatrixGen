@@ -3,9 +3,10 @@
   <table>
     <tr *ngFor="let browser of sessionService.session.browsers">
       <td>{{browser.BrowserName}}</td>
-      <td><input type="text" [(ngModel)]="browser.BrowserPercentageWeight" /></td>
+      <td><input type="number" [(ngModel)]="browser.BrowserPercentageWeight" /></td>
     </tr>
   </table>
+  <p>Tally = {{getTally() | percent}}</p>
 </div>
 <div>
   <button (click)="onBack()">Back</button>

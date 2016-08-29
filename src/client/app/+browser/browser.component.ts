@@ -27,6 +27,21 @@ export class BrowserComponent implements OnInit {
     });
   }
 
+  getTally() {
+    if(this.sessionService.session.browsers) {
+      let sum = 0;
+
+      for(let i = 0; i < this.sessionService.session.browsers.length; i++) {
+        console.log(this.sessionService.session.browsers[i].BrowserPercentageWeight);
+        sum += this.sessionService.session.browsers[i].BrowserPercentageWeight / 100;
+      }
+
+      return sum;
+    }
+
+    return 0;
+  }
+
   onBack() {
     this.router.navigate(['tests']);
   }
