@@ -1,0 +1,9 @@
+<div>Select the Product Release Version</div>
+<select *ngIf="productReleases"
+        [(ngModel)]="sessionService.session.productRelease">
+  <option *ngFor="let release of productReleases" [ngValue]="release">
+    {{release.ProductReleaseVersion}}
+  </option>
+</select>
+<button (click)="onStart()">Start</button>
+<router-outlet></router-outlet>

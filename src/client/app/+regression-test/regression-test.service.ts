@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { RegressionTest } from '../shared/index';
+import '../shared/utilities/rxjs-operators';
+
+@Injectable()
+export class RegressionTestService {
+  private uri: string;
+
+  constructor(private http: Http) {
+    this.uri = 'https://localhost/RegressionMatrix/api/Tests';
+  }
+
+  getRegressionTests(): Observable<RegressionTest[]> {
+    return this.http.get(this.uri)
+      .map(this.handleData)
+      .share()
+      .catch(this.handleError);
+  }
+
+  private handleData(res: Response) {
+    let body = res.json();
+    return body.Content || {};
+  }
+
+  private handleError(error: any) {
+    let errorMsg = error.message || error.statusText || 'Server error';
+    console.error('Regression tests call failed: ' + errorMsg);
+    return Observable.throw(errorMsg);
+  }
+}
