@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 
@@ -14,7 +15,13 @@ import { ProductReleaseComponent } from './+product-release/index';
 import { RegressionTestComponent } from './+regression-test/index';
 import { BrowserComponent } from './+browser/index';
 import { UserTypeComponent } from './+user-type/index';
-import { GridComponent } from './shared/index';
+import {
+  GridComponent,
+  LeftMenuComponent,
+  SessionService,
+  MatrixGeneratorService
+} from './shared/index';
+import { DatabaseService } from './+database/database.service';
 
 @NgModule({
   declarations: [
@@ -23,17 +30,22 @@ import { GridComponent } from './shared/index';
     RegressionTestComponent,
     BrowserComponent,
     UserTypeComponent,
-    GridComponent
+    GridComponent,
+    LeftMenuComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
     routing
   ],
   providers: [
     HTTP_PROVIDERS,
-    provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
+    DatabaseService,
+    SessionService,
+    MatrixGeneratorService,
+    provide(APP_BASE_HREF, { useValue: '/' }),
     {
         provide: 'CanAlwaysActivateGuard',
         useValue: () => {

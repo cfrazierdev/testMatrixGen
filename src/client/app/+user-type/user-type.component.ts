@@ -1,32 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserTypeService } from './user-type.service';
-import { SessionService, UserType } from '../shared/index';
+import { DatabaseService } from '../+database/database.service';
+import { SessionService, UserType, MatrixGeneratorService } from '../shared/index';
+import { base } from '../routes';
 
 @Component({
   selector: 'gp-user-type',
   templateUrl: 'app/+user-type/user-type.component.html',
-  providers: [UserTypeService]
 })
 export class UserTypeComponent implements OnInit {
   private defaultUserTypes: UserType[];
 
-  constructor(private userTypeService: UserTypeService,
+  constructor(private databaseService: DatabaseService,
               private sessionService: SessionService,
+              private matrixGeneratorService: MatrixGeneratorService,
+              private ngZone: NgZone,
               private router: Router) {}
 
   ngOnInit() {
-    if(!this.sessionService.session.productRelease
+    if(!this.sessionService.session.selectedProductRelease
        || !this.sessionService.session.regressionTests
        || !this.sessionService.session.browsers) {
-      this.router.navigate(['']);
+      this.router.navigate([base]);
     }
-
-    this.userTypeService.getUserTypes().subscribe(results => {
-      this.defaultUserTypes = JSON.parse(JSON.stringify(results));
-      this.sessionService.session.userTypes = results;
-    });
   }
 
   onBack() {
@@ -34,10 +31,21 @@ export class UserTypeComponent implements OnInit {
   }
 
   onGenerate() {
-    this.router.navigate(['']);
+    this.matrixGeneratorService.generateMatrix();
+    //this.router.navigate(['']);
   }
 
   onReset() {
-    this.sessionService.session.userTypes = JSON.parse(JSON.stringify(this.defaultUserTypes));
+    this.databaseService.getUserTypes(this.onUserTypes.bind(this));
+  }
+
+  onUserTypes(error: any, userTypes: any) {
+    if(error) {
+      console.error(error);
+    } else {
+      this.ngZone.run(() => {
+        this.sessionService.session.userTypes = userTypes;
+      });
+    }
   }
 }

@@ -5,3 +5,5 @@ export * from './regression-test/index';
 export * from './grid/index';
 export * from './browser/index';
 export * from './user-type/index';
+export * from './matrix-generator/index';
+export * from './left-menu/index';

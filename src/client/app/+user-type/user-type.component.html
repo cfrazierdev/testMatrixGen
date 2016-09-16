@@ -1,10 +1,10 @@
 <h4>Assign multiplier values for each User Type</h4>
 <h6>(Values to be increments of 1)</h6>
 <div >
-  <table>
+  <table *ngIf="sessionService">
     <tr *ngFor="let userType of sessionService.session.userTypes">
       <td>{{userType.UserTypeDescription}}</td>
-      <td><input type="text" [(ngModel)]="userType.UserTypeMultiplier" /></td>
+      <td><input type="number" [(ngModel)]="userType.UserTypeMultiplier" /></td>
     </tr>
   </table>
 </div>

@@ -1,7 +1,7 @@
 <div>Select the Product Release Version</div>
-<select *ngIf="productReleases"
-        [(ngModel)]="sessionService.session.productRelease">
-  <option *ngFor="let release of productReleases" [ngValue]="release">
+<select *ngIf="sessionService && sessionService.session.productReleases"
+        [(ngModel)]="sessionService.session.selectedProductRelease">
+  <option *ngFor="let release of sessionService.session.productReleases" [ngValue]="release">
     {{release.ProductReleaseVersion}}
   </option>
 </select>

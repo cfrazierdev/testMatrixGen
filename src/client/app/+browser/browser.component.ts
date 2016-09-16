@@ -1,30 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BrowserService } from './browser.service';
+import { DatabaseService } from '../+database/database.service';
 import { SessionService, Browser } from '../shared/index';
+import { base } from '../routes';
 
 @Component({
   selector: 'gp-browser',
-  templateUrl: 'app/+browser/browser.component.html',
-  providers: [BrowserService]
+  templateUrl: 'app/+browser/browser.component.html'
 })
 export class BrowserComponent implements OnInit {
   private defaultBrowsers: Browser[];
 
-  constructor(private browserService: BrowserService,
-              private sessionService: SessionService,
-              private router: Router) {}
+  constructor(private sessionService: SessionService,
+              private databaseService: DatabaseService,
+              private router: Router,
+              private ngZone: NgZone) {}
 
   ngOnInit() {
-    if(!this.sessionService.session.productRelease || !this.sessionService.session.regressionTests) {
-      this.router.navigate(['']);
+    if(!this.sessionService.session.selectedProductRelease || !this.sessionService.session.regressionTests) {
+      this.router.navigate([base]);
     }
-
-    this.browserService.getBrowsers().subscribe(results => {
-      this.defaultBrowsers = JSON.parse(JSON.stringify(results));
-      this.sessionService.session.browsers = results;
-    });
   }
 
   getTally() {
@@ -32,7 +28,6 @@ export class BrowserComponent implements OnInit {
       let sum = 0;
 
       for(let i = 0; i < this.sessionService.session.browsers.length; i++) {
-        console.log(this.sessionService.session.browsers[i].BrowserPercentageWeight);
         sum += this.sessionService.session.browsers[i].BrowserPercentageWeight / 100;
       }
 
@@ -51,6 +46,16 @@ export class BrowserComponent implements OnInit {
   }
 
   onReset() {
-    this.sessionService.session.browsers = JSON.parse(JSON.stringify(this.defaultBrowsers));
+    this.databaseService.getBrowsers(this.onBrowsers.bind(this));
+  }
+
+  onBrowsers(error: any, browsers: any) {
+    if(error) {
+      console.error(error);
+    } else {
+      this.ngZone.run(() => {
+        this.sessionService.session.browsers = browsers;
+      });
+    }
   }
 }

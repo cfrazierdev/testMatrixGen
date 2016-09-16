@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { RegressionTestService } from './regression-test.service';
+import { DatabaseService } from '../+database/database.service';
 import { SessionService, RegressionTest, GridComponent } from '../shared/index';
+import { base } from '../routes';
 
 @Component({
   selector: 'gp-regression-test',
   templateUrl: 'app/+regression-test/regression-test.component.html',
-  providers: [RegressionTestService],
   directives: [GridComponent]
 })
 export class RegressionTestComponent implements OnInit {
@@ -105,22 +105,21 @@ export class RegressionTestComponent implements OnInit {
     return root;
   }
 
-  constructor(private regressionTestService: RegressionTestService,
+  constructor(private databaseService: DatabaseService,
               private sessionService: SessionService,
               private router: Router) {}
 
   ngOnInit() {
-    if(!this.sessionService.session.productRelease) {
-      this.router.navigate(['']);
+    if(!this.sessionService.session.selectedProductRelease) {
+      this.router.navigate([base]);
     }
 
     this.createGridOptions();
   }
 
   createGridOptions(): any {
-    let _ = this;
     this.gridOptions = {
-      columnDefs: _.regressionTestHeaders,
+      columnDefs: this.regressionTestHeaders,
       enableColResize: true,
       enableSorting: true,
       enableFilter: true,
@@ -131,24 +130,24 @@ export class RegressionTestComponent implements OnInit {
       //onSelectionChanged: this.rowSelected.bind(this),
       headerHeight: 54,
       onGridSizeChanged: () => {
-        _.gridOptions.api.sizeColumnsToFit();
+        this.gridOptions.api.sizeColumnsToFit();
       },
       onGridReady: () => {
-        _.getPracticeData();
-        _.gridOptions.api.sizeColumnsToFit();
+        if(this.sessionService.session.regressionTests) {
+          this.onGettingData(null, this.sessionService.session.regressionTests);
+        } else {
+          this.getPracticeData();
+        }
       }
     };
   }
 
   getPracticeData() {
     this.gridOptions.api.showLoadingOverlay();
-    this.regressionTestService.getRegressionTests().subscribe(
-      this.onGettingData.bind(this),
-      this.onErrorGettingData.bind(this)
-    );
+    this.databaseService.getRegressionTests(this.onGettingData.bind(this));
   }
 
-  onGettingData(tests: any) {
+  onGettingData(error: any, tests: any) {
     this.defaultRegressionTests = JSON.parse(JSON.stringify(tests));
     this.sessionService.session.regressionTests = tests;
 
@@ -157,17 +156,8 @@ export class RegressionTestComponent implements OnInit {
     this.gridOptions.api.sizeColumnsToFit();
   }
 
-  onErrorGettingData(err: any) {
-    console.log(err);
-  }
-
-  onResetToDefault() {
-    this.sessionService.session.regressionTests = JSON.parse(JSON.stringify(this.defaultRegressionTests));
-    this.gridOptions.api.setRowData(this.sessionService.session.regressionTests);
-  }
-
   onBack() {
-    this.router.navigate(['']);
+    this.router.navigate([base]);
   }
 
   onNext() {
