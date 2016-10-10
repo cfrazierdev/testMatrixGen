@@ -1,7 +1,9 @@
-*.js
+*.log
 *.js.map
 node_modules/
 typings/
 bin/
 dist/
 obj/
+public/lib/js/vendors.min.js
+npm-debug.log
