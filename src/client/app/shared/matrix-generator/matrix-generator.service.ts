@@ -109,18 +109,18 @@ export class MatrixGeneratorService {
     let platform = '';
     switch(browserTest.browserName) {
       case 'Chrome':
-        if(random < 0.333333 || browserTest.tests[index].OmitFromMobile) {
+        if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
           platform = 'Dc';
-        } else if (random < 0.666666) {
+        } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Ma';
         } else {
           platform = 'Ta';
         }
         break;
       case 'Safari':
-        if(random < 0.333333 || browserTest.tests[index].OmitFromMobile) {
+        if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
           platform = 'DM';
-        } else if (random < 0.666666) {
+        } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Mi';
         } else {
           platform = 'Ti';
@@ -146,79 +146,119 @@ export class MatrixGeneratorService {
     let b: number;
     let userTypes = JSON.parse(JSON.stringify(this.sessionService.session.userTypes));
     let finalTests: FinalTest[] = [];
+    let numUserTypeBlind = 0;
 
     tests.forEach((test:any) => {
       test.testCount = test.tests.length;
       totalTests += test.testCount;
+      test.tests.forEach((t:any) => {
+        if(t.IsUserTypeBlind) {
+          numUserTypeBlind++;
+        }
+      });
     });
 
     userTypes.forEach((userType: UserType) => multiplierValueSum += userType.UserTypeMultiplier);
 
-    b = totalTests / multiplierValueSum;
+    b = (totalTests - numUserTypeBlind) / multiplierValueSum;
 
     userTypes.sort((a: UserType, b: UserType) => b.UserTypeMultiplier - a.UserTypeMultiplier);
 
-
     for(let i = 0; i < userTypes.length; i++) {
-      if(userTypes[i].UserTypeMultiplier !== userTypes[userTypes.length - 1].UserTypeMultiplier) {
-        let numTests = Math.round(userTypes[i].UserTypeMultiplier * b);
+      let numTests = Math.floor(userTypes[i].UserTypeMultiplier * b);
 
-        for(let j = 0; j < numTests; j++) {
-          let browserIndex = Math.floor(Math.random() * tests.length);
+      for(let j = 0; j < numTests; j++) {
+        let browserIndex = Math.floor(Math.random() * tests.length);
 
-          while(tests[browserIndex].testCount === 0) {
-            browserIndex = Math.floor(Math.random() * tests.length);
-          }
+        while(tests[browserIndex].testCount === 0) {
+          browserIndex = Math.floor(Math.random() * tests.length);
+        }
 
-          let testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
-          let added = false;
+        let testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+        let added = false;
 
-          while(!added) {
-            if(tests[browserIndex].tests[testIndex]) {
-              finalTests.push({ test: tests[browserIndex].tests.splice(testIndex, 1)[0],
-                                browser: tests[browserIndex].browserName,
-                                userType: userTypes[i] });
+        while(!added) {
+          if(tests[browserIndex].tests[testIndex]) {
+            finalTests.push({ test: tests[browserIndex].tests.splice(testIndex, 1)[0],
+                              browser: tests[browserIndex].browserName,
+                              userType: userTypes[i] });
 
-              if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
-                finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
+            if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
+              finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
+              testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+              browserIndex = Math.floor(Math.random() * tests.length);
+
+              while(tests[browserIndex].testCount === 0) {
+                browserIndex = Math.floor(Math.random() * tests.length);
               }
 
-              tests[browserIndex].testCount--;
               totalTests--;
-              added = true;
-            } else {
-              testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+              continue;
+            }
+
+            tests[browserIndex].testCount--;
+            totalTests--;
+            added = true;
+          } else if(tests[browserIndex].tests.length > 0){
+            testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+          } else {
+            browserIndex = Math.floor(Math.random() * tests.length);
+
+            while(tests[browserIndex].testCount === 0) {
+              browserIndex = Math.floor(Math.random() * tests.length);
             }
           }
         }
-      } else {
-        while(totalTests > 0) {
-          let userTypeIndex = Math.floor(Math.random() * (userTypes.length - i) + i);
-          let browserIndex = Math.floor(Math.random() * tests.length);
+      }
+    }
+
+    while(totalTests > 0) {
+      let userTypeIndex = Math.floor(Math.random() * userTypes.length);
+      let browserIndex = Math.floor(Math.random() * tests.length);
+
+      while(tests[browserIndex].testCount === 0) {
+        browserIndex = Math.floor(Math.random() * tests.length);
+      }
+
+      let testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+      let added = false;
+
+      while(!added) {
+        if(tests[browserIndex].tests[testIndex]) {
+          finalTests.push({ test: tests[browserIndex].tests.splice(testIndex, 1)[0],
+                            browser: tests[browserIndex].browserName,
+                            userType: userTypes[userTypeIndex] });
+
+          if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
+            finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
+            testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+
+            browserIndex = Math.floor(Math.random() * tests.length);
+
+            while(tests[browserIndex].testCount === 0) {
+              browserIndex = Math.floor(Math.random() * tests.length);
+            }
+
+            totalTests--;
+            continue;
+          }
+
+          tests[browserIndex].testCount--;
+          totalTests--;
+          added = true;
+        } else if(tests[browserIndex].tests.length > 0){
+          testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
+        } else if(tests.every(test => test.tests.length === 0)) {
+          added = true;
+          tests.forEach(test => {
+            test.testCount = 0;
+            test.mobileOmittedTestCount = 0;
+          });
+        } else {
+          browserIndex = Math.floor(Math.random() * tests.length);
 
           while(tests[browserIndex].testCount === 0) {
             browserIndex = Math.floor(Math.random() * tests.length);
-          }
-
-          let testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
-          let added = false;
-
-          while(!added) {
-            if(tests[browserIndex].tests[testIndex]) {
-              finalTests.push({ test: tests[browserIndex].tests.splice(testIndex, 1)[0],
-                                browser: tests[browserIndex].browserName,
-                                userType: userTypes[userTypeIndex] });
-
-              if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
-                finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
-              }
-
-              tests[browserIndex].testCount--;
-              totalTests--;
-              added = true;
-            } else {
-              testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
-            }
           }
         }
       }
