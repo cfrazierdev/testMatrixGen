@@ -38,23 +38,23 @@
     "ws": "^1.1.1"
   },
   "dependencies": {
-    "@angular/common": "2.0.0-rc.5",
-    "@angular/compiler": "2.0.0-rc.5",
-    "@angular/core": "2.0.0-rc.5",
+    "@angular/common": "2.0.0",
+    "@angular/compiler": "2.0.0",
+    "@angular/core": "2.0.0",
     "@angular/forms": "0.3.0",
-    "@angular/http": "2.0.0-rc.5",
-    "@angular/platform-browser": "2.0.0-rc.5",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.5",
+    "@angular/http": "2.0.0",
+    "@angular/platform-browser": "2.0.0",
+    "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0-rc.1",
     "ag-grid": "5.2.x",
     "ag-grid-enterprise": "5.2.x",
     "ag-grid-ng2": "5.2.x",
     "lodash": "4.15.0",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.6",
+    "rxjs": "5.0.0-beta.12",
     "sqlite3": "3.1.4",
     "systemjs": "0.19.27",
-    "zone.js": "0.6.13"
+    "zone.js": "0.6.21"
   },
   "main": "src/client/index.js",
   "build": {

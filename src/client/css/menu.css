@@ -1,0 +1,116 @@
+.menu {
+  width: 100%;
+  height: 100%;
+  background-color: #229922;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+.menu-item-background {
+  min-height: 20%;
+  left: 20%;
+  background-size: contain;
+  background-color:#777777;
+  outline: 0.1rem solid black;
+  position: absolute;
+  z-index: 1;
+}
+
+.menu-item-content {
+  height: 95%;
+  padding: 0.5rem;
+}
+
+.menu-button {
+  background-color: #777777;
+  width: 100%;
+  height: 20%;
+  outline: 0.1rem solid black;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  white-space: normal; }
+  @media (min-width: 1025px) {
+    .menu-button:hover {
+      background-color: #229922;
+      color: black; }
+      .menu-button:hover .menu-button-topLeft,
+      .menu-button:hover .menu-button-topRight,
+      .thickmenu-buttonItem:hover .menu-button-bottomLeft,
+      .thickmenu-buttonItem:hover .menu-button-bottomRight,
+      .menu-button:hover .menu-button-bottomSpan {
+        color: black; } }
+  @media (max-width: 1024px) {
+    .menu-button:active {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: black; }
+      .menu-button:active .menu-button-topLeft,
+      .menu-button:active .menu-button-topRight,
+      .menu-button:active .menu-button-bottomLeft,
+      .menu-button:active .menu-button-bottomRight,
+      .menu-button:active .menu-button-bottomSpan {
+        color: black; } }
+  .menu-button.is-active {
+    background-color: #005eab;
+    color: black; 
+}
+
+.menu-control-panel {
+  background-color: #777777;
+  width: 100%;
+  height: 20%;
+  outline: 0.1rem solid black;
+  position: relative;
+  z-index: 1;
+  white-space: normal;
+}
+
+@media screen and (max-height:635px) {
+  .menu-item-background.bottom {
+    bottom: 0;
+  }
+}
+
+.menu-item-background.bottom {
+  bottom: 0;
+}
+
+.menu-button-title {
+  font-size: 1.2rem; 
+  padding: 0.6rem;
+}
+
+.menu-button-description {
+  font-size: 0.9rem;
+  padding: 0 0.6rem;
+}
+
+.control-panel-button {
+  width: 60%;
+  height: 40%;
+  background-color: #229922;
+  border: none;
+  color: white;
+  font-size: 16px;
+}
+
+.control-panel-button:hover {
+  background-color: #229922;
+  color: #005eab;
+  cursor: pointer;
+}
+
+.control-panel-button:focus {
+  color: white;
+}
+
+.control-panel-button:disabled {
+  background-color: #AAAAAA;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

@@ -1,4 +1,14 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { 
+  Component,
+  OnInit,
+  Input,
+  NgZone,
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+ } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatabaseService } from '../+database/database.service';
@@ -7,9 +17,22 @@ import { base } from '../routes';
 
 @Component({
   selector: 'gp-browser',
-  templateUrl: 'app/+browser/browser.component.html'
+  templateUrl: 'app/+browser/browser.component.html',
+  animations: [
+    trigger('active', [
+      state('true', style({transform: 'translateX(0%)'})),
+      transition('void => *', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({transform: 'translateX(-100%)'}))
+      ])
+    ])
+  ]
 })
 export class BrowserComponent implements OnInit {
+  @Input() isActive: boolean;
   private defaultBrowsers: Browser[];
 
   constructor(private sessionService: SessionService,
@@ -37,16 +60,12 @@ export class BrowserComponent implements OnInit {
     return 0;
   }
 
-  onBack() {
-    this.router.navigate(['tests']);
-  }
-
-  onNext() {
-    this.router.navigate(['userTypes']);
-  }
-
   onReset() {
     this.databaseService.getBrowsers(this.onBrowsers.bind(this));
+  }
+
+  onSave() {
+    this.databaseService.updateBrowserPercentages(this.sessionService.session.browsers);
   }
 
   onBrowsers(error: any, browsers: any) {

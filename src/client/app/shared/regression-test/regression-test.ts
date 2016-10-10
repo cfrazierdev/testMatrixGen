@@ -6,4 +6,5 @@ export class RegressionTest {
   IsDeviceBlind: boolean;
   IsUserTypeBlind: boolean;
   OmitFromMobile: boolean;
+  Platform: string;
 }

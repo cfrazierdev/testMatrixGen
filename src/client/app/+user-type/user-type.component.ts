@@ -1,4 +1,13 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { 
+  Component,
+  Input,
+  NgZone,
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatabaseService } from '../+database/database.service';
@@ -8,32 +17,25 @@ import { base } from '../routes';
 @Component({
   selector: 'gp-user-type',
   templateUrl: 'app/+user-type/user-type.component.html',
+  animations: [
+    trigger('active', [
+      state('true', style({transform: 'translateX(0%)'})),
+      transition('void => *', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({transform: 'translateX(-100%)'}))
+      ])
+    ])
+  ]
 })
-export class UserTypeComponent implements OnInit {
-  private defaultUserTypes: UserType[];
+export class UserTypeComponent {
+  @Input() isActive: boolean;
 
   constructor(private databaseService: DatabaseService,
               private sessionService: SessionService,
-              private matrixGeneratorService: MatrixGeneratorService,
-              private ngZone: NgZone,
-              private router: Router) {}
-
-  ngOnInit() {
-    if(!this.sessionService.session.selectedProductRelease
-       || !this.sessionService.session.regressionTests
-       || !this.sessionService.session.browsers) {
-      this.router.navigate([base]);
-    }
-  }
-
-  onBack() {
-    this.router.navigate(['browsers']);
-  }
-
-  onGenerate() {
-    this.matrixGeneratorService.generateMatrix();
-    //this.router.navigate(['']);
-  }
+              private ngZone: NgZone) {}
 
   onReset() {
     this.databaseService.getUserTypes(this.onUserTypes.bind(this));

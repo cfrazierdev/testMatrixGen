@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { 
+  Component,
+  OnInit,
+  Input,
+  trigger,
+  state,
+  style,
+  transition,
+  animate 
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatabaseService } from '../+database/database.service';
@@ -8,18 +17,30 @@ import { base } from '../routes';
 @Component({
   selector: 'gp-regression-test',
   templateUrl: 'app/+regression-test/regression-test.component.html',
-  directives: [GridComponent]
+  animations: [
+    trigger('active', [
+      state('true', style({transform: 'translateX(0%)'})),
+      transition('void => *', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({transform: 'translateX(-100%)'}))
+      ])
+    ])
+  ]
 })
 export class RegressionTestComponent implements OnInit {
-  //private regressionTests: RegressionTest[];
+  @Input() isActive: boolean;
   private gridOptions: any;
+  showAdd: boolean = false;
   private defaultRegressionTests: RegressionTest[];
   private regressionTestHeaders: any = [
     {
       headerName: 'Regression Test Name',
       field: 'RegressionTestSuiteName',
       editable: true,
-      width: 300,
+      width: 400,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
     },
@@ -125,6 +146,9 @@ export class RegressionTestComponent implements OnInit {
       enableFilter: true,
       suppressMenuColumnPanel: true,
       suppressMenuHide: true,
+      suppressRowClickSelection: true,
+      suppressCellSelection: true,
+      singleClickEdit: true,
       debug: false,
       rowSelection: 'single',
       //onSelectionChanged: this.rowSelected.bind(this),
@@ -156,11 +180,11 @@ export class RegressionTestComponent implements OnInit {
     this.gridOptions.api.sizeColumnsToFit();
   }
 
-  onBack() {
-    this.router.navigate([base]);
+  onAdd() {
+    this.showAdd = true;
   }
 
-  onNext() {
-    this.router.navigate(['browsers']);
+  onSave() {
+    this.databaseService.updateRegressionTests(this.sessionService.session.regressionTests);
   }
 }

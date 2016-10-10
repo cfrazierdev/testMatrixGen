@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ProductRelease } from '../shared/index';
+import { ProductRelease, RegressionTest, Browser } from '../shared/index';
 import '../shared/utilities/rxjs-operators';
 
 @Injectable()
@@ -26,5 +26,13 @@ export class DatabaseService {
 
   getUserTypes(callback: Function) {
     this.db.getUserTypes(callback);
+  }
+
+  updateRegressionTests(tests: RegressionTest[]) {
+    this.db.updateRegressionTests(tests);
+  }
+
+  updateBrowserPercentages(browsers: Browser[]) {
+    this.db.updateBrowserPercentages(browsers);
   }
 }

@@ -12,9 +12,12 @@ import { provide } from '@angular/core';
 import { routing } from './routes';
 
 import { ProductReleaseComponent } from './+product-release/index';
-import { RegressionTestComponent } from './+regression-test/index';
+import { RegressionTestComponent, RegressionTestCreatorComponent } from './+regression-test/index';
 import { BrowserComponent } from './+browser/index';
 import { UserTypeComponent } from './+user-type/index';
+import { ControlPanelComponent } from './+control-panel/index';
+import { MatrixComponent } from './+matrix/index';
+import { TestGeneratorComponent } from './+test-generator/index';
 import {
   GridComponent,
   LeftMenuComponent,
@@ -28,10 +31,14 @@ import { DatabaseService } from './+database/database.service';
     AppComponent,
     ProductReleaseComponent,
     RegressionTestComponent,
+    RegressionTestCreatorComponent,
     BrowserComponent,
     UserTypeComponent,
     GridComponent,
-    LeftMenuComponent
+    LeftMenuComponent,
+    ControlPanelComponent,
+    MatrixComponent,
+    TestGeneratorComponent
   ],
   imports: [
     BrowserModule,

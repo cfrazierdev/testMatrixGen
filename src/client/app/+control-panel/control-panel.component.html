@@ -1,0 +1,9 @@
+<div style="text-align:center;width:100%;height:100%;">
+  <button [disabled]="sessionService.getTally() !== 100" class="control-panel-button tooltip" (click)="onGenerate()">
+    Generate Matrix
+    <div *ngIf="sessionService.getTally() !== 100" class="tooltiptext">
+      Browser percentages must add up to 100%. Current sum: {{sessionService.getTally()}}%
+    </div>
+  </button>
+  <button class="control-panel-button" (click)="onResetAll()">Reset All</button>
+</div>

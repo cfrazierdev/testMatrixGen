@@ -1,9 +1,10 @@
-<div>Select the Product Release Version</div>
-<select *ngIf="sessionService && sessionService.session.productReleases"
-        [(ngModel)]="sessionService.session.selectedProductRelease">
-  <option *ngFor="let release of sessionService.session.productReleases" [ngValue]="release">
-    {{release.ProductReleaseVersion}}
-  </option>
-</select>
-<button (click)="onStart()">Start</button>
-<router-outlet></router-outlet>
+<div *ngIf="isActive" [@active]="'true'" class="menu-item-background" style="width:20vw">
+  <div class="menu-item-content">
+    <select *ngIf="sessionService && sessionService.session.productReleases"
+            [(ngModel)]="sessionService.session.selectedProductRelease">
+      <option *ngFor="let release of sessionService.session.productReleases" [ngValue]="release">
+        {{release.ProductReleaseVersion}}
+      </option>
+    </select>
+  </div>
+</div>

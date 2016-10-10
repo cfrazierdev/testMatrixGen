@@ -5,6 +5,7 @@ import { RegressionTestComponent } from './+regression-test/index';
 import { BrowserComponent } from './+browser/index';
 import { UserTypeComponent } from './+user-type/index';
 import { LeftMenuComponent } from './shared/index';
+import { TestGeneratorComponent } from './+test-generator/index';
 
 var baseString = location.pathname.split('/');
 export const base: string = baseString.slice(1, baseString.length - 1).join('/');
@@ -17,7 +18,7 @@ export const routes: Routes = [
   },
   {
     path: base,
-    component: LeftMenuComponent,
+    component: TestGeneratorComponent,
     canActivate: ['CanAlwaysActivateGuard']
   },
   {

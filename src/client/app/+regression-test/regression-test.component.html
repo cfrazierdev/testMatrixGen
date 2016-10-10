@@ -1,12 +1,11 @@
-<div>
-  <div style="position:relative;height:600px;">
-    <gp-grid [gridOptions]="gridOptions"></gp-grid>
+<div *ngIf="isActive" [@active]="'true'" class="menu-item-background" style="width:80vw;height:100vh;top:0;bottom:0;">
+  <div *ngIf="showAdd" class="menu-item-content" style="width:50vh;height:50vh;z-index">
+    <gp-test-creator></gp-test-creator>
   </div>
-  <div>
-    <button (click)="onBack()">Back</button>
-    <button>Add</button>
-    <button>Save</button>
-    <button (click)="getPracticeData()">Reset to Default</button>
-    <button (click)="onNext()">Next</button>
+  <div class="menu-item-content">
+    <gp-grid style="height:90vh" [gridOptions]="gridOptions"></gp-grid>
+    <button (click)="onAdd()">Add</button>
+    <button (click)="onSave()">Save</button>
+    <button (click)="getPracticeData()">Reset</button>
   </div>
 </div>

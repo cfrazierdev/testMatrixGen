@@ -1,17 +1,25 @@
-<div>
-  <div>
-    <gp-product-release></gp-product-release>
+<div class="menu">
+  <gp-product-release [isActive]="selectedItem === 'Product Release'"></gp-product-release>
+  <div class="menu-button" [class.is-active]="selectedItem === 'Product Release'" (click)="onClick('Product Release')">
+    <div class="menu-button-title unselectable">Product Release</div>
+    <div class="menu-button-description unselectable">Select the Product Release Version</div>
   </div>
-  <div>
-    <gp-regression-test></gp-regression-test>
+  <gp-regression-test style="width:80%;height:100%;" [isActive]="selectedItem === 'Regression Tests'"></gp-regression-test>
+  <div class="menu-button" [class.is-active]="selectedItem === 'Regression Tests'" (click)="onClick('Regression Tests')">
+    <div class="menu-button-title unselectable">Regression Tests</div>
+    <div class="menu-button-description unselectable">Edit regression test suites</div>
   </div>
-  <div>
-    <gp-browser></gp-browser>
+  <gp-browser [isActive]="selectedItem === 'Browsers'"></gp-browser>
+  <div class="menu-button" [class.is-active]="selectedItem === 'Browsers'" (click)="onClick('Browsers')">
+    <div class="menu-button-title unselectable">Browsers</div>
+    <div class="menu-button-description unselectable">Select browsers and percentage for each</div>
   </div>
-  <div>
-    <gp-user-type></gp-user-type>
+  <gp-user-type [isActive]="selectedItem === 'User Type'"></gp-user-type>
+  <div class="menu-button" [class.is-active]="selectedItem === 'User Type'" (click)="onClick('User Type')">
+    <div class="menu-button-title unselectable">User Types</div>
+    <div class="menu-button-description unselectable">Assign multiplier values for each User Type</div>
   </div>
-  <div>
-
+  <div class="menu-control-panel">
+    <gp-control-panel></gp-control-panel>
   </div>
 </div>

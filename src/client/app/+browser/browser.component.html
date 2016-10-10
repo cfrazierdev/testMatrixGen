@@ -1,15 +1,15 @@
-<h4>Select browsers and percentage for each</h4>
-<div >
-  <table *ngIf="sessionService">
-    <tr *ngFor="let browser of sessionService.session.browsers">
-      <td>{{browser.BrowserName}}</td>
-      <td><input type="number" [(ngModel)]="browser.BrowserPercentageWeight" /></td>
-    </tr>
-  </table>
-  <p>Tally = {{getTally() | percent}}</p>
-</div>
-<div>
-  <button (click)="onBack()">Back</button>
-  <button (click)="onReset()">Reset</button>
-  <button (click)="onNext()">Next</button>
+<div *ngIf="isActive" [@active]="'true'" class="menu-item-background" style="width:25vw">
+  <div class="menu-item-content">
+    <table *ngIf="sessionService">
+      <tr *ngFor="let browser of sessionService.session.browsers">
+        <td>{{browser.BrowserName}}</td>
+        <td width="50%"><input type="number" [(ngModel)]="browser.BrowserPercentageWeight" /></td>
+      </tr>
+    </table>
+    <p>Tally = {{getTally() | percent}}</p>
+    <div>
+      <button (click)="onSave()">Save</button>
+      <button (click)="onReset()">Reset</button>
+    </div>
+  </div>
 </div>
