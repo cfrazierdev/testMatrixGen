@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 import { MatrixGeneratorService, FinalTest, GridComponent } from '../shared/index';
 import { base } from '../routes';
 
+import { SessionService } from '../shared/index';
+
 @Component({
   selector: 'gp-matrix',
   templateUrl: 'app/+matrix/matrix.component.html',
@@ -90,13 +92,18 @@ export class MatrixComponent implements OnInit, OnChanges {
     }
   ];
 
-  constructor(private matrixGeneratorService: MatrixGeneratorService) {}
+  constructor(private matrixGeneratorService: MatrixGeneratorService,
+              private sessionService: SessionService) {}
 
   ngOnInit() {
     this.createGridOptions();
   }
 
   ngOnChanges(changes: any) {
+    if(this.sessionService.session.selectedProductRelease){
+      this.regressionTestHeaders[0].headerName = 'Regression Test <br/> release ' + this.sessionService.session.selectedProductRelease.ProductReleaseVersion;
+      console.log(this.sessionService.session.selectedProductRelease.ProductReleaseVersion);
+    }
     if(this.gridOptions) {
       this.gridOptions.api.setRowData(this.tests);
       this.gridOptions.api.refreshHeader();

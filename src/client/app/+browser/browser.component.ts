@@ -76,5 +76,5 @@ export class BrowserComponent implements OnInit {
         this.sessionService.session.browsers = browsers;
       });
     }
-  }
+  } 
 }

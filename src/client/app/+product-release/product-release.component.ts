@@ -31,4 +31,5 @@ export class ProductReleaseComponent {
   @Input() isActive: boolean;
 
   constructor(private sessionService: SessionService) {}
+
 }
