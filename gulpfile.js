@@ -8,5 +8,5 @@ gulp.task('build', (callback) => {
 });
 
 gulp.task('serve', () => {
-  runSequence(['scripts', 'styles'], 'inject.serve', 'serve.watch');
+  runSequence(['copy', 'scripts', 'styles'], 'inject.serve', 'serve.watch');
 });
