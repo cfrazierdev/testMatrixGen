@@ -30,3 +30,9 @@ body {
   -o-user-select: none;
   user-select: none;
 }
+
+.ag-header-cell-label {
+    text-overflow: clip;
+    overflow: visible;
+    white-space: normal;
+}
