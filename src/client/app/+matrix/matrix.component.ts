@@ -17,8 +17,18 @@ export class MatrixComponent implements OnInit, OnChanges {
       field: 'test.RegressionTestSuiteName',
       editable: true,
       width: 300,
-      comparator: this.testIdComparator,
       sort: 'asc',
+      sortedAt: 1,
+      filter: 'text',
+      filterParams: { apply: false, newRowsAction: 'keep' },
+    },
+    {
+      headerName: 'Risk Level',
+      field: 'test.RiskLevelId',
+      cellRenderer: this.selectRenderer,
+      width: 200,
+      sort: 'desc',
+      sortedAt: 0,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
     },
@@ -108,6 +118,30 @@ export class MatrixComponent implements OnInit, OnChanges {
         this.gridOptions.api.sizeColumnsToFit();
       }
     };
+  }
+
+  selectRenderer(params: any) {
+    console.log(params);
+    let root = document.createElement('div');
+    let select = document.createElement('select');
+    let options = ['1', '2', '3', '4', '6', '9'];
+
+    for(let i = 0; i < options.length; i++) {
+      let option = document.createElement('option');
+      option.text = options[i];
+      option.value = options[i];
+      select.appendChild(option);
+    }
+
+    select.selectedIndex = params.value - 1;
+
+    select.onchange = () => {
+      params.node.data[params.colDef.field] = select.selectedIndex;
+    };
+
+    root.appendChild(select);
+
+    return root;
   }
 
   private platformGetter(params: any) {
