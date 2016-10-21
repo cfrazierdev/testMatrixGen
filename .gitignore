@@ -7,3 +7,5 @@ dist/
 obj/
 public/lib/js/vendors.min.js
 npm-debug.log
+public/lib/css/global.min.css
+regressiontestmatrix.db

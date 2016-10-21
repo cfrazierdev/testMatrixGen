@@ -102,7 +102,6 @@ export class MatrixComponent implements OnInit, OnChanges {
   ngOnChanges(changes: any) {
     if(this.sessionService.session.selectedProductRelease){
       this.regressionTestHeaders[0].headerName = 'Regression Test <br/> release ' + this.sessionService.session.selectedProductRelease.ProductReleaseVersion;
-      console.log(this.sessionService.session.selectedProductRelease.ProductReleaseVersion);
     }
     if(this.gridOptions) {
       this.gridOptions.api.setRowData(this.tests);
@@ -135,7 +134,7 @@ export class MatrixComponent implements OnInit, OnChanges {
   }
 
   selectRenderer(params: any) {
-    console.log(params);
+    //console.log(params);
     let root = document.createElement('div');
     let select = document.createElement('select');
     let options = ['1', '2', '3', '4', '6', '9'];

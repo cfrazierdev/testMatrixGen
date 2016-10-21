@@ -8,10 +8,15 @@ import { FinalTest } from './final-test';
 @Injectable()
 export class MatrixGeneratorService {
   matrixTests: FinalTest[] = [];
+  hideLeftMenu: string = "no";
 
   constructor(private sessionService: SessionService) {}
 
   generateMatrix() {
+    this.hideLeftMenu = "yes";
+    setTimeout(() => {
+      this.hideLeftMenu = "no";
+    }, 10);
     let browserTests: BrowserTests[] = this.assignBrowsersToTests();
     this.matrixTests = this.assignUserTypesToTests(browserTests);
   }
