@@ -64,8 +64,8 @@
     "appId": "regressionTestMatrixGenerator",
     "app-category-type": "utility",
     "productName": "Regression Test Matrix Generator",
-    "fileAssociations": {
-      "icon": "favicon.ico"
+    "win": {
+      "icon": "./favicon.ico"
     }
   }
 }
