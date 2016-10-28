@@ -17,6 +17,10 @@ export class ControlPanelComponent {
     this.matrixGeneratorService.generateMatrix();
   }
 
+  onExport() {
+    this.matrixGeneratorService.exportMatrix.next(null);
+  }
+
   onResetAll() {
     this.databaseService.getProductReleases(this.onProductReleases.bind(this));
       this.databaseService.getRegressionTests(this.onRegressionTests.bind(this));

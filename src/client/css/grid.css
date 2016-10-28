@@ -1,0 +1,15 @@
+.ag-fresh .ag-row-even {
+  background-color: #ddd
+}
+
+.ag-fresh .ag-row-odd {
+  background-color: #bbb;
+}
+
+.ag-fresh .ag-header {
+  background: linear-gradient(#bbb,#888)
+}
+
+.ag-fresh .ag-body {
+  background-color: #bbb;
+}

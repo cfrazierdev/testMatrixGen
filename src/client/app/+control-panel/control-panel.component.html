@@ -1,4 +1,4 @@
-<div style="text-align:center;width:100%;height:100%;">
+<div style="text-align:center;width:100%;height:60%;top:50%;transform:translateY(25%);">
   <button [disabled]="sessionService.getTally() !== 100" class="control-panel-button tooltip" (click)="onGenerate()">
     Generate Matrix
     <div *ngIf="sessionService.getTally() !== 100" class="tooltiptext">
@@ -6,4 +6,5 @@
     </div>
   </button>
   <button class="control-panel-button" (click)="onResetAll()">Reset All</button>
+  <button [disabled]="matrixGeneratorService.matrixTests.length === 0" class="control-panel-button" (click)="onExport()">Export</button>
 </div>

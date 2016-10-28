@@ -89,25 +89,32 @@
 .control-panel-button {
   width: 60%;
   height: 40%;
-  background-color: #229922;
-  border: none;
+  background-color: #226622;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 0.5px;
   color: white;
-  font-size: 16px;
+  font-size: 1em;
 }
 
 .control-panel-button:hover {
   background-color: #229922;
-  color: #005eab;
+  color: #000;
   cursor: pointer;
 }
 
 .control-panel-button:focus {
   color: white;
+  outline: none;
+}
+
+.control-panel-button:active {
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
 }
 
 .control-panel-button:disabled {
-  background-color: #AAAAAA;
-  border: none;
+  background-color: #669966;
+  border: 1px solid transparent;
   color: white;
   text-align: center;
   text-decoration: none;

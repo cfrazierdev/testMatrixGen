@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Rx';
 import '../utilities/rxjs-operators';
 
 import { SessionService, RegressionTest, Browser, UserType } from '../index';
@@ -9,6 +10,7 @@ import { FinalTest } from './final-test';
 export class MatrixGeneratorService {
   matrixTests: FinalTest[] = [];
   hideLeftMenu: string = "no";
+  exportMatrix: Subject<any> = new Subject();
 
   constructor(private sessionService: SessionService) {}
 

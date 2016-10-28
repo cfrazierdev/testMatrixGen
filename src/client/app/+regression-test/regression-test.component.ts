@@ -45,10 +45,10 @@ export class RegressionTestComponent implements OnInit {
       filterParams: { apply: false, newRowsAction: 'keep' },
     },
     {
-      headerName: 'Risk Lvl',
+      headerName: 'Risk Level',
       field: 'RiskLevelId',
       cellRenderer: this.selectRenderer,
-      width: 200,
+      width: 100,
       sort: 'desc',
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -118,7 +118,8 @@ export class RegressionTestComponent implements OnInit {
     select.selectedIndex = params.data[params.colDef.field] - 1;
 
     select.onchange = () => {
-      params.node.data[params.colDef.field] = select.selectedIndex;
+      params.node.data[params.colDef.field] = select.selectedIndex + 1;
+      params.node.setSelected(true, true);
     };
 
     root.appendChild(select);
@@ -146,12 +147,9 @@ export class RegressionTestComponent implements OnInit {
       enableFilter: true,
       suppressMenuColumnPanel: true,
       suppressMenuHide: true,
-      suppressRowClickSelection: true,
-      suppressCellSelection: true,
       singleClickEdit: true,
       debug: false,
       rowSelection: 'single',
-      //onSelectionChanged: this.rowSelected.bind(this),
       headerHeight: 54,
       onGridSizeChanged: () => {
         this.gridOptions.api.sizeColumnsToFit();
@@ -182,6 +180,14 @@ export class RegressionTestComponent implements OnInit {
 
   onAdd() {
     this.showAdd = true;
+  }
+
+  onCancel(event: any) {
+    this.showAdd = event;
+  }
+
+  onUpdate(event: any) {
+    this.getPracticeData();
   }
 
   onSave() {

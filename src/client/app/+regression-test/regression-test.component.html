@@ -1,6 +1,6 @@
-<div *ngIf="isActive" [@active]="'true'" class="menu-item-background" style="width:80vw;height:100vh;top:0;bottom:0;">
+<div *ngIf="isActive" [@active]="'true'" class="menu-item-background" style="width:78vw;height:98vh;top:0;bottom:0;">
   <div *ngIf="showAdd" class="menu-item-content" style="width:50vh;height:50vh;z-index">
-    <gp-test-creator></gp-test-creator>
+    <gp-test-creator (show)="onCancel($event)" (update)="onUpdate($event)"></gp-test-creator>
   </div>
   <div class="menu-item-content">
     <gp-grid style="height:90vh" [gridOptions]="gridOptions"></gp-grid>

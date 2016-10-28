@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { MatrixGeneratorService, FinalTest, GridComponent } from '../shared/index';
@@ -10,8 +10,9 @@ import { SessionService } from '../shared/index';
   selector: 'gp-matrix',
   templateUrl: 'app/+matrix/matrix.component.html',
 })
-export class MatrixComponent implements OnInit, OnChanges {
+export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
   @Input() tests: any;
+  private options: any = ['1', '2', '3', '4', '6', '9'];
   private gridOptions: any;
   private regressionTestHeaders: any = [
     {
@@ -27,7 +28,7 @@ export class MatrixComponent implements OnInit, OnChanges {
     {
       headerName: 'Risk Level',
       field: 'test.RiskLevelId',
-      cellRenderer: this.selectRenderer,
+      cellRenderer: this.selectRenderer.bind(this),
       width: 100,
       sort: 'desc',
       sortedAt: 0,
@@ -97,6 +98,11 @@ export class MatrixComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.createGridOptions();
+    this.matrixGeneratorService.exportMatrix.subscribe(() => this.exportToCsv());
+  }
+
+  ngOnDestroy() {
+    this.matrixGeneratorService.exportMatrix.unsubscribe();
   }
 
   ngOnChanges(changes: any) {
@@ -134,27 +140,42 @@ export class MatrixComponent implements OnInit, OnChanges {
   }
 
   selectRenderer(params: any) {
-    //console.log(params);
     let root = document.createElement('div');
     let select = document.createElement('select');
-    let options = ['1', '2', '3', '4', '6', '9'];
 
-    for(let i = 0; i < options.length; i++) {
+    for(let i = 0; i < this.options.length; i++) {
       let option = document.createElement('option');
-      option.text = options[i];
-      option.value = options[i];
+      option.text = this.options[i];
+      option.value = this.options[i];
       select.appendChild(option);
     }
 
     select.selectedIndex = params.value - 1;
 
     select.onchange = () => {
-      params.node.data[params.colDef.field] = select.selectedIndex;
+      params.node.data[params.colDef.field] = select.selectedIndex + 1;
     };
 
     root.appendChild(select);
 
     return root;
+  }
+
+  exportToCsv() {
+    let params = {
+      skipHeader: false,
+      skipFooters: false,
+      skipGroups: false,
+      skipFloatingTop: false,
+      skipFloatingBottom: false,
+      allColumns: true,
+      onlySelected: false,
+      suppressQuotes: false,
+      fileName: this.sessionService.session.selectedProductRelease.ProductReleaseVersion + '.csv',
+      columnSeparator: ','
+    };
+
+    this.gridOptions.api.exportDataAsCsv(params);
   }
 
   private platformGetter(params: any) {

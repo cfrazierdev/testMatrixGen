@@ -3,24 +3,36 @@
   <table>
     <tr>
       <td>Regression Test Suite Name</td>
-      <td><input type="text" /></td>
+      <td><input type="text" [(ngModel)]="regressionTestSuiteName" /></td>
     </tr>
     <tr>
       <td>Risk Level</td>
       <td>
+        <select [(ngModel)]="riskLevelId">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">6</option>
+          <option value="6">9</option>
+        </select>
       </td>
     </tr>
     <tr>
       <td>Core</td>
-      <td><input type="checkbox" /></td>
+      <td><input type="checkbox" [(ngModel)]="isCore" /></td>
     </tr>
     <tr>
-      <td>Device-Blind</td>
-      <td><input type="checkbox" /></td>
+      <td>Device Blind</td>
+      <td><input type="checkbox" [(ngModel)]="isDeviceBlind" /></td>
+    </tr>
+    <tr>
+      <td>User Type Blind</td>
+      <td><input type="checkbox" [(ngModel)]="isUserTypeBlind" /></td>
     </tr>
     <tr>
       <td>Omit from Mobile</td>
-      <td><input type="checkbox" /></td>
+      <td><input type="checkbox" [(ngModel)]="omitFromMobile" /></td>
     </tr>
   </table>
   <div>
