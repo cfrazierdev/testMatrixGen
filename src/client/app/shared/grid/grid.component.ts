@@ -6,7 +6,6 @@ import * as AgGridEnterprise from 'ag-grid-enterprise/dist/lib/licenseManager';
 
 @Component({
   selector: 'gp-grid',
-  directives: [AgGridNg2],
   templateUrl: 'app/shared/grid/grid.component.html'
 })
 export class GridComponent {

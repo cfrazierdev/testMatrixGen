@@ -6,5 +6,10 @@
     </div>
   </button>
   <button class="control-panel-button" (click)="onResetAll()">Reset All</button>
-  <button [disabled]="matrixGeneratorService.matrixTests.length === 0" class="control-panel-button" (click)="onExport()">Export</button>
+  <button [disabled]="matrixGeneratorService.matrixTests.length === 0" class="control-panel-button tooltip" (click)="onExport()">
+    Export
+    <div *ngIf="matrixGeneratorService.matrixTests.length === 0" class="tooltiptext">
+      You must generate a matrix in order to export
+    </div>
+  </button>
 </div>

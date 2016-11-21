@@ -4,10 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
-
-import { HTTP_PROVIDERS } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
-import { provide } from '@angular/core';
+import { AgGridModule } from 'ag-grid-ng2/main';
 
 import { routing } from './routes';
 
@@ -45,14 +43,17 @@ import { DatabaseService } from './+database/database.service';
     CommonModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    AgGridModule.forRoot()
   ],
   providers: [
-    HTTP_PROVIDERS,
     DatabaseService,
     SessionService,
     MatrixGeneratorService,
-    provide(APP_BASE_HREF, { useValue: '/' }),
+    {
+        provide: APP_BASE_HREF, 
+        useValue: '/'
+    },
     {
         provide: 'CanAlwaysActivateGuard',
         useValue: () => {

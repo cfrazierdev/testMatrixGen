@@ -1,5 +1,5 @@
 {
-  "name": "regressionmatrixgenerator",
-  "version": "0.0.1",
+  "name": "Regression Test Matrix Generator",
+  "version": "1.0.0",
   "main": "index.js"
 }

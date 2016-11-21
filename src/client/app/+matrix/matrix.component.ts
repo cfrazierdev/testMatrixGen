@@ -18,7 +18,6 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Regression Test',
       field: 'test.RegressionTestSuiteName',
-      editable: true,
       width: 300,
       sort: 'asc',
       sortedAt: 1,
@@ -28,17 +27,18 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Risk Level',
       field: 'test.RiskLevelId',
-      cellRenderer: this.selectRenderer.bind(this),
       width: 100,
       sort: 'desc',
       sortedAt: 0,
       filter: 'text',
-      filterParams: { apply: false, newRowsAction: 'keep' },
+      filterParams: { apply: false, newRowsAction: 'keep' }
     },
     {
       headerName: 'Patient with 1 own account',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -46,7 +46,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Patient with 2 own accounts (different practice)',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -54,7 +56,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Patient with 1 authorized user account (same practice)',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -62,7 +66,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Patient with 1 authorized user account (different practice)',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -70,7 +76,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'User with 1 authorized user account',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -78,7 +86,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'User with 2 authorized user accounts (same practice)',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -86,7 +96,9 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'User with 2 authorized user accounts (different practice)',
       valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
       editable: true,
+      newValue: null,
       width: 180,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -99,6 +111,7 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.createGridOptions();
     this.matrixGeneratorService.exportMatrix.subscribe(() => this.exportToCsv());
+    this.matrixGeneratorService.resetMatrix.subscribe(() => this.resetMatrix());
   }
 
   ngOnDestroy() {
@@ -172,17 +185,39 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
       onlySelected: false,
       suppressQuotes: false,
       fileName: this.sessionService.session.selectedProductRelease.ProductReleaseVersion + '.csv',
-      columnSeparator: ','
+      columnSeparator: ',',
+      processCellCallback: this.processCell.bind(this)
     };
 
     this.gridOptions.api.exportDataAsCsv(params);
   }
 
+  private processCell(params: any) {
+    console.log(params);
+    if(params.column.colDef.field === 'test.RiskLevelId') {
+      params.value = this.options[params.value - 1];
+    }
+
+    return params.value;
+  }
+
   private platformGetter(params: any) {
+    if(params.colDef.newValue) return params.colDef.newValue;
+
     return (params.data.userType && params.data.userType.UserTypeDescription === params.colDef.headerName) ? params.data.test.Platform : '';
   }
 
   private testIdComparator(testName1: any, testName2: any, rowNode1: any, rowNode2:any) {
     return rowNode1.data.test.RegressionTestSuiteId - rowNode2.data.test.RegressionTestSuiteId;
+  }
+
+  private textHandler(params: any) {
+    if(params.newValue.length <= 25 && /^[\w\d\s]*$/.test(params.newValue)) params.colDef.newValue = params.newValue;
+  }
+
+  private resetMatrix() {
+    this.regressionTestHeaders.forEach((header: any) => {
+      if(header.newValue) header.newValue = null;
+    });
   }
 }

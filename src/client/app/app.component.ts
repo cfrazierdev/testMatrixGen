@@ -1,13 +1,12 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { SessionService } from './shared/index';
 import { DatabaseService } from './+database/database.service';
 
 @Component({
   selector: 'gp-app',
-  templateUrl: 'app/app.component.html',
-  directives: [ROUTER_DIRECTIVES]
+  templateUrl: 'app/app.component.html'
 })
 export class AppComponent implements OnInit {
     constructor(private router: Router,

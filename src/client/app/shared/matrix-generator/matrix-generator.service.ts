@@ -11,10 +11,12 @@ export class MatrixGeneratorService {
   matrixTests: FinalTest[] = [];
   hideLeftMenu: string = "no";
   exportMatrix: Subject<any> = new Subject();
+  resetMatrix: Subject<any> = new Subject();
 
   constructor(private sessionService: SessionService) {}
 
   generateMatrix() {
+    this.resetMatrix.next(null);
     this.hideLeftMenu = "yes";
     setTimeout(() => {
       this.hideLeftMenu = "no";
