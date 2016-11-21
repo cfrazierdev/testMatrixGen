@@ -27,6 +27,7 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     {
       headerName: 'Risk Level',
       field: 'test.RiskLevelId',
+      valueGetter: this.riskLevelGetter.bind(this),
       width: 100,
       sort: 'desc',
       sortedAt: 0,
@@ -152,28 +153,6 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     };
   }
 
-  selectRenderer(params: any) {
-    let root = document.createElement('div');
-    let select = document.createElement('select');
-
-    for(let i = 0; i < this.options.length; i++) {
-      let option = document.createElement('option');
-      option.text = this.options[i];
-      option.value = this.options[i];
-      select.appendChild(option);
-    }
-
-    select.selectedIndex = params.value - 1;
-
-    select.onchange = () => {
-      params.node.data[params.colDef.field] = select.selectedIndex + 1;
-    };
-
-    root.appendChild(select);
-
-    return root;
-  }
-
   exportToCsv() {
     let params = {
       skipHeader: false,
@@ -205,6 +184,10 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
     if(params.colDef.newValue) return params.colDef.newValue;
 
     return (params.data.userType && params.data.userType.UserTypeDescription === params.colDef.headerName) ? params.data.test.Platform : '';
+  }
+
+  private riskLevelGetter(params: any) {
+    return this.options[params.data.test.RiskLevelId - 1];
   }
 
   private testIdComparator(testName1: any, testName2: any, rowNode1: any, rowNode2:any) {
