@@ -67,7 +67,7 @@ export class RegressionTestComponent implements OnInit {
     {
       headerName: 'Device Blind',
       field: 'IsDeviceBlind',
-      cellRenderer: this.checkboxRenderer,
+      cellRenderer: this.checkboxRendererCheckDisable,
       width: 200,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -75,7 +75,7 @@ export class RegressionTestComponent implements OnInit {
     {
       headerName: 'UserTypeBlind',
       field: 'IsUserTypeBlind',
-      cellRenderer: this.checkboxRenderer,
+      cellRenderer: this.checkboxRendererCheckEnable,
       width: 200,
       filter: 'text',
       filterParams: { apply: false, newRowsAction: 'keep' },
@@ -96,9 +96,50 @@ export class RegressionTestComponent implements OnInit {
 
     checkbox.type = 'checkbox';
     checkbox.checked = params.data[params.colDef.field];
-
+    
     checkbox.onclick = () => {
       params.node.data[params.colDef.field] = +checkbox.checked;
+    };
+
+    root.appendChild(checkbox);
+
+    return root;
+  }
+
+  checkboxRendererCheckDisable(params: any) {
+    let root = document.createElement('div');
+    let checkbox = document.createElement('input');
+
+    if(params.data['IsUserTypeBlind'] === 1){
+      checkbox.checked = params.data[params.colDef.field];
+    }
+    else{
+      checkbox.disabled = true;
+    }
+
+    checkbox.type = 'checkbox';
+    root.appendChild(checkbox);
+
+    return root;
+  }
+
+  checkboxRendererCheckEnable(params: any) {
+    let root = document.createElement('div');
+    let checkbox = document.createElement('input');
+
+    checkbox.type = 'checkbox';
+    checkbox.checked = params.data[params.colDef.field];
+    
+    checkbox.onclick = () => {
+      params.node.data[params.colDef.field] = +checkbox.checked;
+      let check = <HTMLInputElement>checkbox.parentElement.parentElement.previousElementSibling.firstChild.firstChild;
+      if(checkbox.checked == false){
+        check.checked = false;
+        check.disabled = true;
+      }
+      else{
+         check.disabled = false;
+      }
     };
 
     root.appendChild(checkbox);
