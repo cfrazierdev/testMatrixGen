@@ -1,6 +1,7 @@
 export interface Constants {
   BROWSERS_DEFAULT_VALUES: Browser[];
   PRODUCT_RELEASES_DEFAULT_VALUES: ProductRelease[];
+  USER_TYPE_BLIND_HEADER: string;
 }
 
 interface ProductRelease {
@@ -59,5 +60,6 @@ export const CONSTANTS: Constants = {
       ProductReleaseId: 4,
       ProductReleaseVersion: '3.14'
     }
-  ]
+  ],
+  USER_TYPE_BLIND_HEADER: 'Not dependent on user type'
 }

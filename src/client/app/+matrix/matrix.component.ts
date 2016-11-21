@@ -35,6 +35,16 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
       filterParams: { apply: false, newRowsAction: 'keep' }
     },
     {
+      headerName: 'Not dependent on user type',
+      valueGetter: this.platformGetter,
+      newValueHandler: this.textHandler,
+      editable: true,
+      newValue: null,
+      width: 180,
+      filter: 'text',
+      filterParams: { apply: false, newRowsAction: 'keep' },
+    },
+    {
       headerName: 'Patient with 1 own account',
       valueGetter: this.platformGetter,
       newValueHandler: this.textHandler,

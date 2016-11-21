@@ -5,6 +5,7 @@ import '../utilities/rxjs-operators';
 import { SessionService, RegressionTest, Browser, UserType } from '../index';
 import { BrowserTests } from './browser-tests';
 import { FinalTest } from './final-test';
+import { CONSTANTS } from '../constants';
 
 @Injectable()
 export class MatrixGeneratorService {
@@ -193,7 +194,11 @@ export class MatrixGeneratorService {
                               userType: userTypes[i] });
 
             if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
-              finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
+              finalTests[finalTests.length - 1].userType = {
+                UserTypeId: '0',
+                UserTypeDescription: CONSTANTS.USER_TYPE_BLIND_HEADER,
+                UserTypeMultiplier: 0
+              };
               testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
               browserIndex = Math.floor(Math.random() * tests.length);
 
@@ -239,7 +244,11 @@ export class MatrixGeneratorService {
                             userType: userTypes[userTypeIndex] });
 
           if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
-            finalTests[finalTests.length - 1].userType = this.sessionService.session.userTypes[0];
+            finalTests[finalTests.length - 1].userType = { 
+              UserTypeId: '0',
+              UserTypeDescription: CONSTANTS.USER_TYPE_BLIND_HEADER,
+              UserTypeMultiplier: 0
+            };
             testIndex = Math.floor(Math.random() * tests[browserIndex].tests.length);
 
             browserIndex = Math.floor(Math.random() * tests.length);
