@@ -120,7 +120,8 @@ export class MatrixGeneratorService {
     switch(browserTest.browserName) {
       case 'Chrome':
         if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
-          platform = 'Dc';
+          if(Math.random() < 0.5) { platform = 'Dc'; }
+          else { platform = 'Ta'; }
         } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Ma';
         } else {
@@ -129,7 +130,8 @@ export class MatrixGeneratorService {
         break;
       case 'Safari':
         if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
-          platform = 'DM';
+          if(Math.random() < 0.5) { platform = 'DM'; }
+          else { platform = 'Ti'; }
         } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Mi';
         } else {
