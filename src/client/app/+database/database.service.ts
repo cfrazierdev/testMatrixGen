@@ -35,4 +35,8 @@ export class DatabaseService {
   updateBrowserPercentages(browsers: Browser[]) {
     this.db.updateBrowserPercentages(browsers);
   }
+
+  updateProductReleases(release: ProductRelease[]) {
+    this.db.updateProductReleases(release);
+  }
 }

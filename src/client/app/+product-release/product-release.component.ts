@@ -1,6 +1,9 @@
 import { 
   Component,
+  EventEmitter,
   Input,
+  Output,
+  NgZone,
   trigger,
   state,
   style,
@@ -9,7 +12,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { SessionService } from '../shared/index';
+import { SessionService, ProductRelease } from '../shared/index';
+import { DatabaseService } from '../+database/database.service';
 
 @Component({
   selector: 'gp-product-release',
@@ -29,7 +33,28 @@ import { SessionService } from '../shared/index';
 })
 export class ProductReleaseComponent {
   @Input() isActive: boolean;
+  productReleaseVersion: string;
+  successMsg: string;
 
-  constructor(private sessionService: SessionService) {}
+  constructor(private ngZone: NgZone,
+              private sessionService: SessionService,
+              private databaseService: DatabaseService) {}
+
+  onSave() {
+    let release = [new ProductRelease({
+      ProductReleaseVersion: this.productReleaseVersion
+    })];
+
+    this.databaseService.updateProductReleases(release);
+    this.productReleaseVersion = "";
+    this.databaseService.getProductReleases(this.onProductReleases.bind(this));
+  }
+
+  private onProductReleases(error: any, productReleases: any) {
+      this.ngZone.run(() => {
+        this.sessionService.session.selectedProductRelease = productReleases[0];
+        this.sessionService.session.productReleases = productReleases;
+      });
+    }
 
 }
