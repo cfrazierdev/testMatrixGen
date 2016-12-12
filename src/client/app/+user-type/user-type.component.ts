@@ -41,6 +41,10 @@ export class UserTypeComponent {
     this.databaseService.getUserTypes(this.onUserTypes.bind(this));
   }
 
+  onSave() {
+    this.databaseService.updateUserTypes(this.sessionService.session.userTypes);
+  }
+
   onUserTypes(error: any, userTypes: any) {
     if(error) {
       console.error(error);

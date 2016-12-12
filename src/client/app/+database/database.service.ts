@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ProductRelease, RegressionTest, Browser } from '../shared/index';
+import { ProductRelease, RegressionTest, Browser, UserType } from '../shared/index';
 import '../shared/utilities/rxjs-operators';
 
 @Injectable()
@@ -38,5 +38,9 @@ export class DatabaseService {
 
   updateProductReleases(release: ProductRelease[]) {
     this.db.updateProductReleases(release);
+  }
+
+   updateUserTypes(userTypes: UserType[]) {
+    this.db.updateUserTypes(userTypes);
   }
 }
