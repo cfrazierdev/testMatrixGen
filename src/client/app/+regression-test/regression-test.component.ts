@@ -164,6 +164,10 @@ export class RegressionTestComponent implements OnInit {
     select.onchange = () => {
       params.node.data[params.colDef.field] = select.selectedIndex + 1;
       params.node.setSelected(true, true);
+      let focus = <HTMLElement>select;
+      window.setTimeout(function (){
+        focus.focus();
+      }, 0);
     };
 
     root.appendChild(select);
