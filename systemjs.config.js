@@ -7,6 +7,7 @@
     'ag-grid':                    '../../node_modules/ag-grid',
     'ag-grid-enterprise':         '../../node_modules/ag-grid-enterprise',
     'ag-grid-ng2':                '../../node_modules/ag-grid-ng2',
+    'Excel':                      '../../node_modules/exceljs'
   };
   var packages = {
     'app':                        { main: 'main',  defaultExtension: 'js' },
@@ -14,7 +15,8 @@
     'angular2-in-memory-web-api': { main: 'index', defaultExtension: 'js' },
     'ag-grid':                    { main: 'main', defaultExtension: 'js' },
     'ag-grid-enterprise':         { main: 'main', defaultExtension: 'js' },
-    'ag-grid-ng2':                { main: 'main', defaultExtension: 'js' }
+    'ag-grid-ng2':                { main: 'main', defaultExtension: 'js' },
+    'Excel':                      { main: 'excel', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

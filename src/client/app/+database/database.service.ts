@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { ProductRelease, RegressionTest, Browser, UserType } from '../shared/index';
-import '../shared/utilities/rxjs-operators';
 
 @Injectable()
 export class DatabaseService {
   private db: any;
 
-  constructor(private http: Http) {
+  constructor() {
     this.db = (<any>window)['module'].exports.dbWrapper;
   }
 

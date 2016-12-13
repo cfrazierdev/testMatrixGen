@@ -44,6 +44,14 @@ exports.DATABASE_DEFAULT_VALUES = {
     {
       ProductReleaseId: 4,
       ProductReleaseVersion: '3.14'
+    },
+    {
+      ProductReleaseId: 5,
+      ProductReleaseVersion: '3.20'
+    },
+    {
+      ProductReleaseId: 6,
+      ProductReleaseVersion: '3.21'
     }
   ],
   USER_TYPES_DEFAULT_VALUES: [

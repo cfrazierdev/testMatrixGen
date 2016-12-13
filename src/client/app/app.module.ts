@@ -20,7 +20,8 @@ import {
   GridComponent,
   LeftMenuComponent,
   SessionService,
-  MatrixGeneratorService
+  MatrixGeneratorService,
+  MatrixExporterService
 } from './shared/index';
 import { DatabaseService } from './+database/database.service';
 
@@ -50,8 +51,9 @@ import { DatabaseService } from './+database/database.service';
     DatabaseService,
     SessionService,
     MatrixGeneratorService,
+    MatrixExporterService,
     {
-        provide: APP_BASE_HREF, 
+        provide: APP_BASE_HREF,
         useValue: '/'
     },
     {

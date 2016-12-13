@@ -1,7 +1,18 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  Input
+} from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { MatrixGeneratorService, FinalTest, GridComponent } from '../shared/index';
+import {
+  MatrixGeneratorService,
+  MatrixExporterService,
+  FinalTest,
+  GridComponent
+} from '../shared/index';
 import { base } from '../routes';
 
 import { SessionService } from '../shared/index';
@@ -117,16 +128,18 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
   ];
 
   constructor(private matrixGeneratorService: MatrixGeneratorService,
+              private matrixExporterService: MatrixExporterService,
               private sessionService: SessionService) {}
 
   ngOnInit() {
     this.createGridOptions();
-    this.matrixGeneratorService.exportMatrix.subscribe(() => this.exportToCsv());
+    this.matrixExporterService.exportMatrix.subscribe(() => this.exportToCsv());
     this.matrixGeneratorService.resetMatrix.subscribe(() => this.resetMatrix());
   }
 
   ngOnDestroy() {
-    this.matrixGeneratorService.exportMatrix.unsubscribe();
+    this.matrixExporterService.exportMatrix.unsubscribe();
+    this.matrixGeneratorService.resetMatrix.unsubscribe();
   }
 
   ngOnChanges(changes: any) {
@@ -173,25 +186,24 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
       allColumns: true,
       onlySelected: false,
       suppressQuotes: false,
-      fileName: this.sessionService.session.selectedProductRelease.ProductReleaseVersion + '.csv',
       columnSeparator: ',',
       processCellCallback: this.processCell.bind(this)
     };
 
-    this.gridOptions.api.exportDataAsCsv(params);
+    let csvData = this.gridOptions.api.getDataAsCsv(params);
+    this.matrixExporterService.exportToExcel(csvData, this.sessionService.session.selectedProductRelease);
   }
 
   private processCell(params: any) {
-    console.log(params);
     if(params.column.colDef.field === 'test.RiskLevelId') {
-      params.value = this.options[params.value - 1];
+      params.value = this.options[params.node.data.test.RiskLevelId - 1];
     }
 
     return params.value;
   }
 
   private platformGetter(params: any) {
-    if(params.colDef.newValue) return params.colDef.newValue;
+    if(params.colDef.newValues && params.colDef.newValues[params.node.childIndex]) return params.colDef.newValues[params.node.childIndex];
 
     return (params.data.userType && params.data.userType.UserTypeDescription === params.colDef.headerName) ? params.data.test.Platform : '';
   }
@@ -205,7 +217,10 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private textHandler(params: any) {
-    if(params.newValue.length <= 25 && /^[\w\d\s]*$/.test(params.newValue)) params.colDef.newValue = params.newValue;
+    if(params.newValue.length <= 25 && /^[\w\d\s]*$/.test(params.newValue)) {
+      if(!params.colDef.newValues) params.colDef.newValues = [];
+      params.colDef.newValues[params.node.childIndex] = params.newValue;
+    }
   }
 
   private resetMatrix() {

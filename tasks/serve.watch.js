@@ -9,6 +9,7 @@ gulp.task('serve.watch', () => {
   gulp.watch(['src/client/index.js',
               'src/client/index.html',
               'src/client/app/+database/*.js',
+              'src/client/app/shared/matrix-exporter/*.js',
               'src/client/**/*.html'],
               () => electron.restart('src/client'));
 

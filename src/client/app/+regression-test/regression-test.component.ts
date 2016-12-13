@@ -1,4 +1,4 @@
-import { 
+import {
   Component,
   OnInit,
   Input,
@@ -6,13 +6,14 @@ import {
   state,
   style,
   transition,
-  animate 
+  animate
 } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatabaseService } from '../+database/database.service';
 import { SessionService, RegressionTest, GridComponent } from '../shared/index';
 import { base } from '../routes';
+import { TextEditorComponent } from '../shared/grid/cellEditors/text-editor';
 
 @Component({
   selector: 'gp-regression-test',
@@ -39,6 +40,7 @@ export class RegressionTestComponent implements OnInit {
     {
       headerName: 'Regression Test Name',
       field: 'RegressionTestSuiteName',
+      newValueHandler: this.onValueChanged,
       editable: true,
       width: 400,
       sort: 'asc',
@@ -96,7 +98,7 @@ export class RegressionTestComponent implements OnInit {
 
     checkbox.type = 'checkbox';
     checkbox.checked = params.data[params.colDef.field];
-    
+
     checkbox.onclick = () => {
       params.node.data[params.colDef.field] = +checkbox.checked;
     };
@@ -117,6 +119,10 @@ export class RegressionTestComponent implements OnInit {
       checkbox.disabled = true;
     }
 
+    checkbox.onclick = () => {
+      params.node.data[params.colDef.field] = +checkbox.checked;
+    };
+
     checkbox.type = 'checkbox';
     root.appendChild(checkbox);
 
@@ -129,7 +135,7 @@ export class RegressionTestComponent implements OnInit {
 
     checkbox.type = 'checkbox';
     checkbox.checked = params.data[params.colDef.field];
-    
+
     checkbox.onclick = () => {
       params.node.data[params.colDef.field] = +checkbox.checked;
       let check = <HTMLInputElement>checkbox.parentElement.parentElement.previousElementSibling.firstChild.firstChild;
@@ -145,6 +151,11 @@ export class RegressionTestComponent implements OnInit {
     root.appendChild(checkbox);
 
     return root;
+  }
+
+  onValueChanged(params: any) {
+    console.log(params);
+    console.log('value changed');
   }
 
   selectRenderer(params: any) {
@@ -195,7 +206,6 @@ export class RegressionTestComponent implements OnInit {
       enableFilter: true,
       suppressMenuColumnPanel: true,
       suppressMenuHide: true,
-      singleClickEdit: true,
       debug: false,
       rowSelection: 'single',
       headerHeight: 54,

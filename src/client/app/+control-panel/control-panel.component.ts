@@ -1,6 +1,10 @@
 import { Component, NgZone } from '@angular/core';
 
-import { MatrixGeneratorService, SessionService } from '../shared/index';
+import {
+  MatrixGeneratorService,
+  MatrixExporterService,
+  SessionService
+} from '../shared/index';
 import { DatabaseService } from '../+database/database.service';
 
 @Component({
@@ -9,6 +13,7 @@ import { DatabaseService } from '../+database/database.service';
 })
 export class ControlPanelComponent {
   constructor(private matrixGeneratorService: MatrixGeneratorService,
+              private matrixExporterService: MatrixExporterService,
               private databaseService: DatabaseService,
               private sessionService: SessionService,
               private ngZone: NgZone) {}
@@ -18,7 +23,7 @@ export class ControlPanelComponent {
   }
 
   onExport() {
-    this.matrixGeneratorService.exportMatrix.next(null);
+    this.matrixExporterService.exportMatrix.next(null);
   }
 
   onResetAll() {

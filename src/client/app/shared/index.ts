@@ -7,3 +7,4 @@ export * from './browser/index';
 export * from './user-type/index';
 export * from './matrix-generator/index';
 export * from './left-menu/index';
+export * from './matrix-exporter/index';

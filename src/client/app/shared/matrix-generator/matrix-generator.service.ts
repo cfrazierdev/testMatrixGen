@@ -11,7 +11,6 @@ import { CONSTANTS } from '../constants';
 export class MatrixGeneratorService {
   matrixTests: FinalTest[] = [];
   hideLeftMenu: string = "no";
-  exportMatrix: Subject<any> = new Subject();
   resetMatrix: Subject<any> = new Subject();
 
   constructor(private sessionService: SessionService) {}
@@ -246,7 +245,7 @@ export class MatrixGeneratorService {
                             userType: userTypes[userTypeIndex] });
 
           if(finalTests[finalTests.length - 1].test.IsUserTypeBlind) {
-            finalTests[finalTests.length - 1].userType = { 
+            finalTests[finalTests.length - 1].userType = {
               UserTypeId: '0',
               UserTypeDescription: CONSTANTS.USER_TYPE_BLIND_HEADER,
               UserTypeMultiplier: 0
