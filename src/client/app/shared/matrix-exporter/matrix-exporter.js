@@ -1,7 +1,8 @@
+'use strict';
+
 var Excel = require('exceljs');
 var Stream = require('stream');
 var exporter;
-
 exporter = {
   export: (csvData, version) => {
     var workbook = new Excel.Workbook();
