@@ -40,8 +40,7 @@ export class RegressionTestComponent implements OnInit {
     {
       headerName: 'Regression Test Name',
       field: 'RegressionTestSuiteName',
-      newValueHandler: this.onValueChanged,
-      editable: true,
+      cellRenderer: this.textRenderer,
       width: 400,
       sort: 'asc',
       sortedAt: 1,
@@ -153,11 +152,6 @@ export class RegressionTestComponent implements OnInit {
     return root;
   }
 
-  onValueChanged(params: any) {
-    console.log(params);
-    console.log('value changed');
-  }
-
   selectRenderer(params: any) {
     let root = document.createElement('div');
     let select = document.createElement('select');
@@ -182,6 +176,21 @@ export class RegressionTestComponent implements OnInit {
     };
 
     root.appendChild(select);
+
+    return root;
+  }
+
+  textRenderer(params: any) {
+    let root = document.createElement('div');
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.value = params.node.data[params.colDef.field];
+
+    input.oninput = (event: any) => {
+      params.node.data[params.colDef.field] = input.value;
+    }
+
+    root.appendChild(input);
 
     return root;
   }
