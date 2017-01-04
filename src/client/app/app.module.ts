@@ -16,6 +16,7 @@ import { UserTypeComponent } from './+user-type/index';
 import { ControlPanelComponent } from './+control-panel/index';
 import { MatrixComponent } from './+matrix/index';
 import { TestGeneratorComponent } from './+test-generator/index';
+import { SavedMatricesComponent } from './+saved-matrices/index';
 import {
   GridComponent,
   LeftMenuComponent,
@@ -37,7 +38,8 @@ import { DatabaseService } from './+database/database.service';
     LeftMenuComponent,
     ControlPanelComponent,
     MatrixComponent,
-    TestGeneratorComponent
+    TestGeneratorComponent,
+    SavedMatricesComponent
   ],
   imports: [
     BrowserModule,

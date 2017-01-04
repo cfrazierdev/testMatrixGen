@@ -49,7 +49,29 @@ dbWrapper = {
 
       callback(null, rows);
       return;
-    })
+    });
+  },
+  getRegressionMatrix: (matrixId, callback) => {
+    db.all('SELECT * FROM RegressionMatrix WHERE RegressionMatrixId = ' + matrixId, (err, rows) => {
+      if(err) {
+        callback(err);
+        return;
+      }
+
+      callback(null, rows);
+      return;
+    });
+  },
+  getRegressionMatrixList: (callback) => {
+    db.all('SELECT RegressionMatrixId, ProductReleaseVersion, DateCreated FROM RegressionMatrix', (err, rows) => {
+      if(err) {
+        callback(err);
+        return;
+      }
+
+      callback(null, rows);
+      return;
+    });
   },
   updateProductReleases: (releases) => {
     for(let i = 0; i < releases.length; i++) {
@@ -85,6 +107,11 @@ dbWrapper = {
       stmt.run(testDeviceUserTypes[i].UserTypeId, testDeviceUserTypes[i].UserTypeDescription, testDeviceUserTypes[i].UserTypeMultiplier, testDeviceUserTypes[i]., testDeviceUserTypes[i]., testDeviceUserTypes[i].);
       stmt.finalize();
     }*/
+  },
+  updateRegressionMatrix: (matrix, date, version) => {
+    let stmt = db.prepare('INSERT OR REPLACE INTO RegressionMatrix (RegressionMatrix, DateCreated, ProductReleaseVersion) VALUES (?, ?, ?)');
+    stmt.run(matrix, date, version);
+    stmt.finalize();
   },
   deleteProductRelease: (release) => {
     let stmt = db.prepare('DELETE FROM ProductRelease WHERE ProductReleaseId = ' + release.ProductReleaseId);
@@ -136,6 +163,12 @@ db.serialize(() => {
     UserTypeId INTEGER,
     ProductReleaseId INTEGER,
     DeviceCount INTEGER
+  )`);
+  db.run(`CREATE TABLE if not exists RegressionMatrix(
+    RegressionMatrixId INTEGER PRIMARY KEY,
+    RegressionMatrix TEXT,
+    DateCreated TEXT,
+    ProductReleaseVersion TEXT
   )`);
 
   for(let i = 0; i < default_values.PRODUCT_RELEASES_DEFAULT_VALUES.length; i++) {

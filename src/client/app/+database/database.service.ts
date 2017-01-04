@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductRelease, RegressionTest, Browser, UserType } from '../shared/index';
+import { ProductRelease, RegressionTest, Browser, UserType, FinalTest } from '../shared/index';
 
 @Injectable()
 export class DatabaseService {
@@ -25,6 +25,14 @@ export class DatabaseService {
     this.db.getUserTypes(callback);
   }
 
+  getRegressionMatrix(matrixId: number, callback: Function) {
+    this.db.getRegressionMatrix(matrixId, callback);
+  }
+
+  getRegressionMatrixList(callback: Function) {
+    this.db.getRegressionMatrixList(callback);
+  }
+
   updateRegressionTests(tests: RegressionTest[]) {
     this.db.updateRegressionTests(tests);
   }
@@ -37,7 +45,11 @@ export class DatabaseService {
     this.db.updateProductReleases(release);
   }
 
-   updateUserTypes(userTypes: UserType[]) {
+  updateUserTypes(userTypes: UserType[]) {
     this.db.updateUserTypes(userTypes);
+  }
+
+  updateRegressionMatrix(matrix: FinalTest[], date: any, version: any) {
+    this.db.updateRegressionMatrix(JSON.stringify(matrix), date, version);
   }
 }

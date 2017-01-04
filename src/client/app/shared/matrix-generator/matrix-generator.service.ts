@@ -10,19 +10,24 @@ import { CONSTANTS } from '../constants';
 @Injectable()
 export class MatrixGeneratorService {
   matrixTests: FinalTest[] = [];
-  hideLeftMenu: string = "no";
+  hideLeftMenu: boolean = false;
   resetMatrix: Subject<any> = new Subject();
 
   constructor(private sessionService: SessionService) {}
 
-  generateMatrix() {
+  generateMatrix(matrix: FinalTest[]) {
     this.resetMatrix.next(null);
-    this.hideLeftMenu = "yes";
+    this.hideLeftMenu = true;
     setTimeout(() => {
-      this.hideLeftMenu = "no";
-    }, 10);
-    let browserTests: BrowserTests[] = this.assignBrowsersToTests();
-    this.matrixTests = this.assignUserTypesToTests(browserTests);
+      this.hideLeftMenu = false;
+    }, 0);
+
+    if(matrix === null) {
+      let browserTests: BrowserTests[] = this.assignBrowsersToTests();
+      this.matrixTests = this.assignUserTypesToTests(browserTests);
+    } else {
+      this.matrixTests = matrix;
+    }
   }
 
   private assignBrowsersToTests() {

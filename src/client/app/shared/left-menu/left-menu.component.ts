@@ -13,7 +13,7 @@ export class LeftMenuComponent implements DoCheck{
   constructor(private matrixGeneratorService: MatrixGeneratorService) {}
 
   ngDoCheck(){
-    if(this.matrixGeneratorService.hideLeftMenu == "yes"){
+    if(this.matrixGeneratorService.hideLeftMenu === true){
       this.selectedItem = '';
     }
   }

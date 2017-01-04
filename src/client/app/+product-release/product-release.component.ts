@@ -51,10 +51,9 @@ export class ProductReleaseComponent {
   }
 
   private onProductReleases(error: any, productReleases: any) {
-      this.ngZone.run(() => {
-        this.sessionService.session.selectedProductRelease = productReleases[0];
-        this.sessionService.session.productReleases = productReleases;
-      });
-    }
-
+    this.ngZone.run(() => {
+      this.sessionService.session.selectedProductRelease = productReleases[0];
+      this.sessionService.session.productReleases = productReleases;
+    });
+  }
 }

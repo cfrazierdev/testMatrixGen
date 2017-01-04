@@ -19,6 +19,11 @@
     <div class="menu-button-title unselectable">User Types</div>
     <div class="menu-button-description unselectable">Assign multiplier values for each User Type</div>
   </div>
+  <gp-saved-matrices [isActive]="selectedItem === 'Saved Matrices'"></gp-saved-matrices>
+  <div class="menu-button" [class.is-active]="selectedItem === 'Saved Matrices'" (click)="onClick('Saved Matrices')">
+    <div class="menu-button-title unselectable">Saved Matrices</div>
+    <div class="menu-button-description unselectable">View previously saved regression matrices</div>
+  </div>
   <div class="menu-control-panel">
     <gp-control-panel></gp-control-panel>
   </div>

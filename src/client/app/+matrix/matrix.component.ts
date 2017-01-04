@@ -144,7 +144,7 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: any) {
     if(this.sessionService.session.selectedProductRelease){
-      this.regressionTestHeaders[0].headerName = 'Regression Test <br/> release ' + this.sessionService.session.selectedProductRelease.ProductReleaseVersion;
+      this.regressionTestHeaders[0].headerName = 'Regression Test (Release ' + this.sessionService.session.selectedProductRelease.ProductReleaseVersion + ')';
     }
     if(this.gridOptions) {
       this.gridOptions.api.setRowData(this.tests);
@@ -226,6 +226,7 @@ export class MatrixComponent implements OnInit, OnChanges, OnDestroy {
   private resetMatrix() {
     this.regressionTestHeaders.forEach((header: any) => {
       if(header.newValue) header.newValue = null;
+      if(header.newValues) header.newValues = null;
     });
   }
 }

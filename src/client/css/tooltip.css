@@ -8,7 +8,7 @@
     border: 1px solid black;
     opacity: 0;
     transition: opacity 0.25s linear;
-    width: 300px;
+    width: 200%;
     background-color: #ff9900;
     color: #fff;
     text-align: center;
@@ -16,10 +16,12 @@
     border-radius: 6px;
     position: absolute;
     bottom: 0;
+    left: 100%;
     z-index: 500000;
+    pointer-events: none;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltiptext:not(:hover) {
     opacity: 1;
     border: 1px solid black;
 }

@@ -1,4 +1,4 @@
-<div style="text-align:center;width:100%;height:60%;top:50%;transform:translateY(25%);">
+<div style="text-align:center;width:100%;height:60%;top:50%;transform:translateY(15%);">
   <button [disabled]="sessionService.getTally() !== 100" class="control-panel-button tooltip" (click)="onGenerate()">
     Generate Matrix
     <div *ngIf="sessionService.getTally() !== 100" class="tooltiptext">
@@ -7,9 +7,15 @@
   </button>
   <button class="control-panel-button" (click)="onResetAll()">Reset All</button>
   <button [disabled]="matrixGeneratorService.matrixTests.length === 0" class="control-panel-button tooltip" (click)="onExport()">
-    Export
+    Export to Excel
     <div *ngIf="matrixGeneratorService.matrixTests.length === 0" class="tooltiptext">
       You must generate a matrix in order to export
+    </div>
+  </button>
+  <button [disabled]="matrixGeneratorService.matrixTests.length === 0" class="control-panel-button tooltip" (click)="onSaveMatrix()">
+    Save to Database
+    <div *ngIf="matrixGeneratorService.matrixTests.length === 0" class="tooltiptext">
+      You must generate a matrix in order to save
     </div>
   </button>
 </div>
