@@ -123,20 +123,24 @@ export class MatrixGeneratorService {
     let platform = '';
     switch(browserTest.browserName) {
       case 'Chrome':
-        if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
+        if(browserTest.tests[index].OmitFromMobile) {
           if(Math.random() < 0.5) { platform = 'Dc'; }
           else { platform = 'Ta'; }
-        } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
+        } else if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
+          platform = 'Dc';
+        } else if(index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Ma';
         } else {
           platform = 'Ta';
         }
         break;
       case 'Safari':
-        if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3 || browserTest.tests[index].OmitFromMobile) {
+        if(browserTest.tests[index].OmitFromMobile) {
           if(Math.random() < 0.5) { platform = 'DM'; }
           else { platform = 'Ti'; }
-        } else if (index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
+        } else if(index < (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
+          platform = 'DM';
+        } else if(index < 2 * (browserTest.testCount - browserTest.mobileOmittedTestCount) / 3) {
           platform = 'Mi';
         } else {
           platform = 'Ti';
